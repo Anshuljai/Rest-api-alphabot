@@ -21,7 +21,7 @@ var cheerio = require('cheerio');
 var request = require('request');
 var TikTokScraper = require('tiktok-scraper');
 var router  = express.Router();
-
+var jimp = require('jimp')
 var { color, bgcolor } = require(__path + '/lib/color.js');
 var { fetchJson } = require(__path + '/lib/fetcher.js')
 var options = require(__path + '/lib/options.js');
@@ -267,6 +267,32 @@ router.get('/remove', (req, res, next) => {
         res.json(loghandler.error)
     }
 })
+
+router.get('/jimp', async (req, res, next) => {
+        var apikeyInput = req.query.apikey,
+            url = req.query.username
+            
+	if(!apikeyInput) return res.json(loghandler.notparam)
+	if(apikeyInput != 'Alphabot') return res.json(loghandler.invalidKey)
+    if (!username) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter username"})
+
+       jimp.read(url)
+        .then(response => response.json())
+        .then(data => {
+.resize(256, 256)
+.quality(60)
+.write("tes.jpg");
+var result = data;
+             res.json({
+             	author: 'Zeeone',
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+})
+
 /*
 =====> GACHA CECAN <=====
 */
